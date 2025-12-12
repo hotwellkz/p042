@@ -178,11 +178,11 @@ success "Backend запущен через pm2"
 
 # 11. Сохранение конфигурации pm2
 info "Сохраняю конфигурацию pm2..."
-pm2 save || error "Не удалось сохранить конфигурацию pm2"
+$PM2_CMD save || error "Не удалось сохранить конфигурацию pm2"
 
 # 12. Настройка автозапуска pm2
 info "Настраиваю автозапуск pm2..."
-pm2 startup | grep -v PM2 || {
+$PM2_CMD startup | grep -v PM2 || {
     info "Выполните команду, которую вывел pm2 startup, для настройки автозапуска"
 }
 
@@ -194,7 +194,7 @@ sleep 3
 if curl -f -s http://127.0.0.1:$BACKEND_PORT/health > /dev/null; then
     success "Backend отвечает на /health"
 else
-    error "Backend не отвечает на /health. Проверьте логи: pm2 logs shortsai-backend"
+    error "Backend не отвечает на /health. Проверьте логи: $PM2_CMD logs shortsai-backend"
 fi
 
 # 14. Вывод информации
