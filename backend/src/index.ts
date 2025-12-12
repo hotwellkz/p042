@@ -122,9 +122,10 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-app.listen(port, () => {
+// Слушаем на всех интерфейсах (0.0.0.0) для доступа через VPN
+app.listen(port, "0.0.0.0", () => {
   // eslint-disable-next-line no-console
-  console.log(`Backend listening on port ${port}`);
+  console.log(`Backend listening on port ${port} (0.0.0.0)`);
   
   // Логируем STORAGE_ROOT при старте
   const pathModule = require("path");
