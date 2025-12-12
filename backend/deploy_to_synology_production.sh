@@ -143,28 +143,28 @@ if ! command -v pm2 &> /dev/null; then
     success "pm2 установлен"
     
     # На Synology pm2 может быть установлен в /usr/local/bin, но PATH может не включать его
-    # Пробуем найти pm2
+    # Также нужен sudo для запуска pm2, установленного через sudo npm install -g
     if command -v pm2 &> /dev/null; then
-        PM2_CMD="pm2"
+        PM2_CMD="sudo pm2"
     elif [ -f "/usr/local/bin/pm2" ]; then
-        PM2_CMD="/usr/local/bin/pm2"
+        PM2_CMD="sudo /usr/local/bin/pm2"
     elif [ -f "/volume1/@appstore/Node.js_v20/usr/local/bin/pm2" ]; then
-        PM2_CMD="/volume1/@appstore/Node.js_v20/usr/local/bin/pm2"
+        PM2_CMD="sudo /volume1/@appstore/Node.js_v20/usr/local/bin/pm2"
     else
         # Используем npm для запуска pm2
         PM2_CMD="sudo $(npm bin -g)/pm2"
     fi
 else
     info "pm2 уже установлен"
-    # Определяем путь к pm2
+    # Определяем путь к pm2 (нужен sudo, так как установлен через sudo)
     if command -v pm2 &> /dev/null; then
-        PM2_CMD="pm2"
+        PM2_CMD="sudo pm2"
     elif [ -f "/usr/local/bin/pm2" ]; then
-        PM2_CMD="/usr/local/bin/pm2"
+        PM2_CMD="sudo /usr/local/bin/pm2"
     elif [ -f "/volume1/@appstore/Node.js_v20/usr/local/bin/pm2" ]; then
-        PM2_CMD="/volume1/@appstore/Node.js_v20/usr/local/bin/pm2"
+        PM2_CMD="sudo /volume1/@appstore/Node.js_v20/usr/local/bin/pm2"
     else
-        PM2_CMD="pm2"  # Fallback
+        PM2_CMD="sudo pm2"  # Fallback с sudo
     fi
 fi
 
