@@ -175,13 +175,16 @@ success "Старые процессы остановлены"
 
 # 10. Запуск через pm2
 info "Запускаю backend через pm2..."
+# Создаём директорию для логов, если её нет
+mkdir -p /volume1/shortsai/logs
+
+# Запускаем через pm2 с правильным синтаксисом
 $PM2_CMD start dist/index.js \
     --name shortsai-backend \
     --node-args="--max-old-space-size=2048" \
     --log-date-format="YYYY-MM-DD HH:mm:ss Z" \
     --merge-logs \
-    --error-log /volume1/shortsai/logs/backend-error.log \
-    --out-log /volume1/shortsai/logs/backend-out.log \
+    --log /volume1/shortsai/logs/backend.log \
     || error "Не удалось запустить backend"
 
 success "Backend запущен через pm2"
